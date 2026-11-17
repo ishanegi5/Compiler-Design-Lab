@@ -1,0 +1,57 @@
+import java.util.*;
+
+public class LALRParser {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter input string (a+b): ");
+        String input = sc.nextLine();
+
+        Stack<Character> stack = new Stack<>();
+
+        int i = 0;
+
+        while (i < input.length()) {
+
+            char ch = input.charAt(i);
+
+            if (ch == 'a' || ch == 'b' || ch == '+') {
+                stack.push(ch);
+                System.out.println("Shift: " + ch);
+                i++;
+            } else {
+                System.out.println("Invalid Symbol");
+                sc.close();
+                return;
+            }
+
+            if (stack.size() >= 3) {
+
+                int n = stack.size();
+
+                if (stack.get(n - 3) == 'a' &&
+                    stack.get(n - 2) == '+' &&
+                    stack.get(n - 1) == 'b') {
+
+                    stack.pop();
+                    stack.pop();
+                    stack.pop();
+
+                    stack.push('E');
+
+                    System.out.println("Reduce: a+b -> E");
+                }
+            }
+        }
+
+        if (stack.size() == 1 && stack.peek() == 'E') {
+            System.out.println("String Accepted");
+        } else {
+            System.out.println("String Rejected");
+        }
+
+        sc.close();
+    }
+}
